@@ -19,9 +19,20 @@ public class Case {
     @JoinColumn(name="Case_Id")
     private CaseInfo caseInfo;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="Court_Id")
+    private Court court;
 
 
     public Case() {
+    }
+
+    public Court getCourt() {
+        return court;
+    }
+
+    public void setCourt(Court court) {
+        this.court = court;
     }
 
     public CaseInfo getCaseInfo() {

@@ -10,7 +10,7 @@ public class CaseInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-//Subjective, objective
+
     @Column(name="subjective",nullable = false)
     private String SubjectiveInfo;
 

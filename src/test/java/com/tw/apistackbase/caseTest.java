@@ -2,8 +2,10 @@ package com.tw.apistackbase;
 
 
 import com.tw.apistackbase.entity.CaseInfo;
+import com.tw.apistackbase.entity.Court;
 import com.tw.apistackbase.repository.CaseInfoRepository;
 import com.tw.apistackbase.repository.CaseRepository;
+import com.tw.apistackbase.repository.CourtRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +30,9 @@ public class caseTest {
 
     @Autowired
     private CaseInfoRepository caseInfoRepository;
+
+    @Autowired
+    private CourtRepository courtRepository;
 
 
 
@@ -133,6 +138,18 @@ public class caseTest {
 
         //When+then
         Assertions.assertEquals("eeefff",caseRepository.findById(case3.getId()).get().getCaseInfo().getSubjectiveInfo());
+    }
+    @Test
+    public void findCourtByCourtId(){
+        //given
+        Court court1=new Court("court1");
+        Court court2=new Court("court2");
+        List<Court> courtList= Arrays.asList(court1,court2);
+        courtRepository.saveAll(courtList);
+        courtRepository.flush();
+
+        //When+then
+        Assertions.assertEquals("court2",courtRepository.findById(court2.getId()).get().getCourtName());
     }
 
 
