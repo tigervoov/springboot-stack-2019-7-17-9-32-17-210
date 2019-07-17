@@ -14,4 +14,9 @@ public interface CaseRepository extends JpaRepository<Case, Integer> {
 
     @Query(value = "select * from case where case_name=:caseName",nativeQuery = true)
     List<Case> findAllByName(@Param("caseName")String caseName );
+
+
+//    @Query(value="update caseInfo set subjective=:subjective where case_name=:caseName")
+//    void updateCaseInfo(@Param("caseName")String caseName,@Param("subjective") String subjectiveInfo);
+
 }

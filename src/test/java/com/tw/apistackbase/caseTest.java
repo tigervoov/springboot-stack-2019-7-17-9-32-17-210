@@ -34,8 +34,9 @@ public class caseTest {
     @Test
     public void findCaseById() {
         //given
-        Case case1 =new Case("盗窃",new Date().getTime());
-        Case case2 =new Case("拐卖",new Date().getTime());
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        Case case3 =new Case("打架",new Date().getTime()+120,new CaseInfo("eeefff","fffeee"));
         List<Case> cases= Arrays.asList(case1,case2);
         caseRepository.saveAll(cases);
         caseRepository.flush();
@@ -46,8 +47,9 @@ public class caseTest {
     @Test
     public void findAllCases(){
         //given
-        Case case1 =new Case("盗窃",new Date().getTime());
-        Case case2 =new Case("拐卖",new Date().getTime());
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        Case case3 =new Case("打架",new Date().getTime()+120,new CaseInfo("eeefff","fffeee"));
         List<Case> cases= Arrays.asList(case1,case2);
         caseRepository.saveAll(cases);
         caseRepository.flush();
@@ -61,9 +63,9 @@ public class caseTest {
     @Test
     public void findByCasesOrderByTimeDesc(){
         //given
-        Case case1 =new Case("盗窃",new Date().getTime());
-        Case case2 =new Case("拐卖",new Date().getTime()+60);
-        Case case3 =new Case("打架",new Date().getTime()+120);
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        Case case3 =new Case("打架",new Date().getTime()+120,new CaseInfo("eeefff","fffeee"));
         List<Case> cases= Arrays.asList(case1,case2,case3);
         caseRepository.saveAll(cases);
         caseRepository.flush();
@@ -77,9 +79,9 @@ public class caseTest {
     @Test
     public void findCaseByCaseName(){
         //given
-        Case case1 =new Case("盗窃",new Date().getTime());
-        Case case2 =new Case("拐卖",new Date().getTime()+60);
-        Case case3 =new Case("打架",new Date().getTime()+120);
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        Case case3 =new Case("打架",new Date().getTime()+120,new CaseInfo("eeefff","fffeee"));
         List<Case> cases= Arrays.asList(case1,case2,case3);
         caseRepository.saveAll(cases);
         caseRepository.flush();
@@ -93,9 +95,9 @@ public class caseTest {
     @Test
     public void deleteCaseById(){
         //given
-        Case case1 =new Case("盗窃",new Date().getTime());
-        Case case2 =new Case("拐卖",new Date().getTime()+60);
-        Case case3 =new Case("打架",new Date().getTime()+120);
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        Case case3 =new Case("打架",new Date().getTime()+120,new CaseInfo("eeefff","fffeee"));
         List<Case> cases= Arrays.asList(case1,case2,case3);
         caseRepository.saveAll(cases);
         caseRepository.flush();
@@ -118,5 +120,21 @@ public class caseTest {
         //When+then
         Assertions.assertEquals("cccddd",caseInfoRepository.findById(caseInfo2.getId()).get().getSubjectiveInfo());
     }
+
+    @Test
+    public void findCaseAndCaseInfoByCaseId(){
+        //given
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        Case case3 =new Case("打架",new Date().getTime()+120,new CaseInfo("eeefff","fffeee"));
+        List<Case> caseList= Arrays.asList(case1,case2,case3);
+        caseRepository.saveAll(caseList);
+        caseRepository.flush();
+
+        //When+then
+        Assertions.assertEquals("eeefff",caseRepository.findById(case3.getId()).get().getCaseInfo().getSubjectiveInfo());
+    }
+
+
 
 }

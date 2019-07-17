@@ -15,13 +15,28 @@ public class Case {
     @Column(name = "time",nullable = false)
     private long time;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="Case_Id")
+    private CaseInfo caseInfo;
+
+
+
     public Case() {
     }
 
-    public Case(String caseName, long time) {
+    public CaseInfo getCaseInfo() {
+        return caseInfo;
+    }
+
+    public void setCaseInfo(CaseInfo caseInfo) {
+        this.caseInfo = caseInfo;
+    }
+
+    public Case(String caseName, long time,CaseInfo caseInfo) {
 
         this.caseName = caseName;
         this.time = time;
+        this.caseInfo=caseInfo;
     }
 
     public int getId() {
