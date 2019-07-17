@@ -1,6 +1,8 @@
 package com.tw.apistackbase;
 
 
+import com.tw.apistackbase.entity.CaseInfo;
+import com.tw.apistackbase.repository.CaseInfoRepository;
 import com.tw.apistackbase.repository.CaseRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +25,10 @@ public class caseTest {
 
     @Autowired
     private CaseRepository caseRepository;
+
+    @Autowired
+    private CaseInfoRepository caseInfoRepository;
+
 
 
     @Test
@@ -99,6 +105,18 @@ public class caseTest {
 
         //then
         Assertions.assertNull(caseRepository.findById(case1.getId()).orElse(null));
+    }
+    @Test
+    public void findCaseInfoById(){
+        //given
+        CaseInfo caseInfo1=new CaseInfo("aaabbb","bbbaaa");
+        CaseInfo caseInfo2=new CaseInfo("cccddd","dddccc");
+        List<CaseInfo> caseInfoList=Arrays.asList(caseInfo1,caseInfo2);
+        caseInfoRepository.saveAll(caseInfoList);
+        caseInfoRepository.flush();
+
+        //When+then
+        Assertions.assertEquals("cccddd",caseInfoRepository.findById(caseInfo2.getId()).get().getSubjectiveInfo());
     }
 
 }
