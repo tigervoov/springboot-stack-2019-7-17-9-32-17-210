@@ -3,9 +3,11 @@ package com.tw.apistackbase;
 
 import com.tw.apistackbase.entity.CaseInfo;
 import com.tw.apistackbase.entity.Court;
+import com.tw.apistackbase.entity.Prosecutor;
 import com.tw.apistackbase.repository.CaseInfoRepository;
 import com.tw.apistackbase.repository.CaseRepository;
 import com.tw.apistackbase.repository.CourtRepository;
+import com.tw.apistackbase.repository.ProsecutorRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +35,9 @@ public class caseTest {
 
     @Autowired
     private CourtRepository courtRepository;
+
+    @Autowired
+    private ProsecutorRepository prosecutorRepository;
 
 
 
@@ -140,7 +145,7 @@ public class caseTest {
         Assertions.assertEquals("eeefff",caseRepository.findById(case3.getId()).get().getCaseInfo().getSubjectiveInfo());
     }
     @Test
-    public void findCourtByCourtId(){
+    public void findCaseAndCourtByCaseId(){
         //given
         Court court1=new Court("court1");
         Court court2=new Court("court2");
@@ -151,6 +156,48 @@ public class caseTest {
         //When+then
         Assertions.assertEquals("court2",courtRepository.findById(court2.getId()).get().getCourtName());
     }
+    @Test
+    public void findCourtByCourtId(){
+        //given
+        Case case1 =new Case("盗窃",new Date().getTime(),new CaseInfo("aaabbb","bbbaaa"));
+        case1.setCourt(new Court("court1"));
+        Case case2 =new Case("拐卖",new Date().getTime()+60,new CaseInfo("cccddd","dddccc"));
+        case2.setCourt(new Court("court2"));
+        List<Case> caseList= Arrays.asList(case1,case2);
+        caseRepository.saveAll(caseList);
+        caseRepository.flush();
+
+        //When+then
+        Assertions.assertEquals("court1",courtRepository.findById(case1.getId()).get().getCourtName());
+    }
+    @Test
+    public void findProsecutorById(){
+        //given
+        Prosecutor prosecutor1=new Prosecutor("mike");
+        Prosecutor prosecutor2=new Prosecutor("John");
+        List<Prosecutor> caseList= Arrays.asList(prosecutor1,prosecutor2);
+        prosecutorRepository.saveAll(caseList);
+        prosecutorRepository.flush();
+
+        //When+then
+        Assertions.assertEquals("mike",prosecutorRepository.findById(prosecutor1.getId()).get().getName());
+    }
+
+    @Test
+    public void findProsecutorsByCourt(){
+        //given
+        Prosecutor prosecutor1=new Prosecutor("mike");
+        Prosecutor prosecutor2=new Prosecutor("John");
+        Court court=new Court("court1");
+        List<Prosecutor> prosecutorList= Arrays.asList(prosecutor1,prosecutor2);
+        court.setProsecutor(prosecutorList);
+        courtRepository.save(court);
+        courtRepository.flush();
+
+        //When+then
+        Assertions.assertEquals("mike",courtRepository.findById(court.getId()).get().getProsecutor().get(0).getName());
+    }
+
 
 
 

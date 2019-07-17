@@ -18,12 +18,24 @@ public class Court {
     @JoinColumn(name = "case_id")
     private List<Case> cases;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "prosecutor_id")
+    private List<Prosecutor> prosecutor;
 
     public Court() {
     }
 
+
     public Court(String courtName) {
         this.courtName = courtName;
+    }
+
+    public List<Prosecutor> getProsecutor() {
+        return prosecutor;
+    }
+
+    public void setProsecutor(List<Prosecutor> prosecutor) {
+        this.prosecutor = prosecutor;
     }
 
     public List<Case> getCases() {
